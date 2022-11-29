@@ -25,6 +25,16 @@ func testhostSender(settingValue *SettingAgent) {
 	for i := settingValue.StartNum; i < settingValue.EndNum; i++ {
 		hostinfo := getNewHost(settingValue.HeaderKeyCode, i)
 		hostList[i] = *hostinfo
+
+		hostEncodeData, err := json.Marshal(hostinfo)
+		if err != nil {
+			fmt.Println(err)
+		} else {
+			onTuneKafkaController.SendKafkaData("host", hostinfo.AgentID, hostEncodeData)
+			if LOGMODE {
+				fmt.Println("Sendhost:", hostinfo.AgentID)
+			}
+		}
 	}
 
 	basicPerfTick := time.NewTicker(time.Second * time.Duration(settingValue.GetPerfDataTime.Basic))
@@ -71,7 +81,6 @@ func testhostSender(settingValue *SettingAgent) {
 				for _, hostinfo := range hostList {
 					nowTime := time.Now().UTC()
 					realtimeDisk := getMakeOntuneRealTimeDiskData(hostinfo, nowTime)
-					realtimeNet := getMakeOntuneRealTimeNetData(hostinfo, nowTime)
 					realTimeDiskEncodeData, err := json.Marshal(realtimeDisk)
 					if err != nil {
 						fmt.Println(err)
@@ -81,6 +90,8 @@ func testhostSender(settingValue *SettingAgent) {
 							fmt.Println("SendRealTimeDISK:", hostinfo.AgentID)
 						}
 					}
+
+					realtimeNet := getMakeOntuneRealTimeNetData(hostinfo, nowTime)
 					realTimeNetEncodeData, err := json.Marshal(realtimeNet)
 					if err != nil {
 						fmt.Println(err)
@@ -98,7 +109,6 @@ func testhostSender(settingValue *SettingAgent) {
 				wg.Done()
 				break
 			}
-
 		}
 	}
 }
