@@ -22,7 +22,7 @@ func testhostSender(settingValue *SettingAgent) {
 	exitControl = make(chan bool, 1)
 	var hostList []kafkaDataStruct.HostAgentInfo
 	hostList = make([]kafkaDataStruct.HostAgentInfo, settingValue.EndNum-settingValue.StartNum)
-	for i := settingValue.StartNum; i < settingValue.EndNum; i++ {
+	for i := 0; i < settingValue.EndNum-settingValue.StartNum; i++ {
 		hostinfo := getNewHost(settingValue.HeaderKeyCode, i)
 		hostList[i] = *hostinfo
 
@@ -114,14 +114,20 @@ func testhostSender(settingValue *SettingAgent) {
 }
 
 func main() {
+	fmt.Println("Open Setting File")
 	settingValue := NewSetting(INIFILEPATH, INIFILENAME)
+	fmt.Println("Open Setting File Complete")
+	fmt.Println("HeaderName : ", settingValue.HeaderKeyCode)
+	fmt.Println("AgentStartNum : ", settingValue.StartNum)
+	fmt.Println("AgentEndNum : ", settingValue.EndNum)
+	fmt.Println("AgentCount : ", settingValue.EndNum-settingValue.StartNum)
+	fmt.Println("Kafka Setting")
 	kafkaconfig := onTuneKafkaController.SettingKafka{KafkaServerAddr: settingValue.KafkaServerAddr, KafkaServerPort: settingValue.KafkaServerPort}
 	onTuneKafkaController.KafkaProducerControllerInit(&kafkaconfig)
-
-	wg.Add(1)
-	//일단 여기서 테스트
-	go testhostSender(settingValue)
-
-	wg.Wait()
-
+	fmt.Println("Kafka Setting Complete (", *onTuneKafkaController.ProducerInit, ")")
+	if *onTuneKafkaController.ProducerInit == true {
+		wg.Add(1)
+		go testhostSender(settingValue)
+		wg.Wait()
+	}
 }
