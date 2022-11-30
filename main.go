@@ -13,7 +13,6 @@ const (
 	INIFILENAME string = "agent.json"
 	INIFILEPATH string = `config\`
 	FILEVERSION string = "0.0.0.1"
-	LOGMODE     bool   = false
 )
 
 var wg sync.WaitGroup
@@ -32,7 +31,7 @@ func testhostSender(settingValue *SettingAgent) {
 			fmt.Println(err)
 		} else {
 			onTuneKafkaController.SendKafkaData("host", hostinfo.AgentID, hostEncodeData)
-			if LOGMODE {
+			if settingValue.LOGMODE {
 				fmt.Println("Sendhost:", hostinfo.AgentID)
 			}
 		}
@@ -54,8 +53,8 @@ func testhostSender(settingValue *SettingAgent) {
 						fmt.Println(err)
 					} else {
 						onTuneKafkaController.SendKafkaData("realtimeperf", hostinfo.AgentID, hostEncodeData)
-						if LOGMODE {
-							fmt.Println("SendRealTimePerf:", hostinfo.AgentID)
+						if settingValue.LOGMODE {
+							fmt.Println("SendRealTimePerf:", hostinfo.AgentID, " ", realtimePerf.Agenttime)
 						}
 					}
 				}
@@ -71,8 +70,8 @@ func testhostSender(settingValue *SettingAgent) {
 						fmt.Println(err)
 					} else {
 						onTuneKafkaController.SendKafkaData("realtimeppid", hostinfo.AgentID, hostEncodeData)
-						if LOGMODE {
-							fmt.Println("SendRealTimePID:", hostinfo.AgentID)
+						if settingValue.LOGMODE {
+							fmt.Println("SendRealTimePID:", hostinfo.AgentID, " ", realtimePIDPerf.Agenttime)
 						}
 					}
 				}
@@ -87,8 +86,8 @@ func testhostSender(settingValue *SettingAgent) {
 						fmt.Println(err)
 					} else {
 						onTuneKafkaController.SendKafkaData("realtimedisk", hostinfo.AgentID, realTimeDiskEncodeData)
-						if LOGMODE {
-							fmt.Println("SendRealTimeDISK:", hostinfo.AgentID)
+						if settingValue.LOGMODE {
+							fmt.Println("SendRealTimeDISK:", hostinfo.AgentID, " ", realtimeDisk.Agenttime)
 						}
 					}
 
@@ -98,8 +97,8 @@ func testhostSender(settingValue *SettingAgent) {
 						fmt.Println(err)
 					} else {
 						onTuneKafkaController.SendKafkaData("realtimenet", hostinfo.AgentID, realTimeNetEncodeData)
-						if LOGMODE {
-							fmt.Println("SendRealTimeNET:", hostinfo.AgentID)
+						if settingValue.LOGMODE {
+							fmt.Println("SendRealTimeNET:", hostinfo.AgentID, " ", realtimeNet.Agenttime)
 						}
 					}
 				}

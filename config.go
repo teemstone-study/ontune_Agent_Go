@@ -14,6 +14,7 @@ type SettingAgent struct {
 	StartNum        int
 	EndNum          int
 	GetPerfDataTime PerfInterval
+	LOGMODE         bool
 }
 type PerfInterval struct {
 	Basic    int
@@ -84,6 +85,8 @@ func initSetting(basePath string, filename string) *SettingAgent {
 	asetting.GetPerfDataTime.Process = 5
 	asetting.GetPerfDataTime.IO = 5
 	asetting.GetPerfDataTime.CoreUtil = 5
+
+	asetting.LOGMODE = false
 
 	return &asetting
 }
