@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"ontune_Kafka_Controller_Go/onTuneKafkaController"
+	"ontune_Kafka_DataStruct/kafkaDataStruct"
 	"sync"
 	"time"
 )
@@ -20,8 +21,8 @@ var exitControl chan bool
 
 func testhostSender(settingValue *SettingAgent) {
 	exitControl = make(chan bool, 1)
-	var hostList []HostAgentInfo
-	hostList = make([]HostAgentInfo, settingValue.EndNum-settingValue.StartNum)
+	var hostList []kafkaDataStruct.HostAgentInfo
+	hostList = make([]kafkaDataStruct.HostAgentInfo, settingValue.EndNum-settingValue.StartNum)
 	for i := settingValue.StartNum; i < settingValue.EndNum; i++ {
 		hostinfo := getNewHost(settingValue.HeaderKeyCode, i)
 		hostList[i] = *hostinfo
@@ -114,7 +115,7 @@ func testhostSender(settingValue *SettingAgent) {
 }
 
 func main() {
-	settingValue := NetSetting(INIFILEPATH, INIFILENAME)
+	settingValue := NewSetting(INIFILEPATH, INIFILENAME)
 	kafkaconfig := onTuneKafkaController.SettingKafka{KafkaServerAddr: settingValue.KafkaServerAddr, KafkaServerPort: settingValue.KafkaServerPort}
 	onTuneKafkaController.KafkaProducerControllerInit(&kafkaconfig)
 

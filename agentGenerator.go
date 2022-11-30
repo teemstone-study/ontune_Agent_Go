@@ -3,12 +3,13 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"ontune_Kafka_DataStruct/kafkaDataStruct"
 	"strconv"
 	"time"
 )
 
-func getNewHost(headString string, number int) *HostAgentInfo {
-	ahostData := HostAgentInfo{}
+func getNewHost(headString string, number int) *kafkaDataStruct.HostAgentInfo {
+	ahostData := kafkaDataStruct.HostAgentInfo{}
 	ahostData.AgentID = headString + strconv.Itoa(number)
 	ahostData.AgentName = headString + strconv.Itoa(number) + strconv.Itoa(rand.Intn(10000))
 	ahostData.Agentversion = FILEVERSION
@@ -24,7 +25,7 @@ func getNewHost(headString string, number int) *HostAgentInfo {
 	return &ahostData
 }
 
-func getMakeOntuneRealTimePerfData(hostItem HostAgentInfo, baseTime time.Time) (arealTimeperf RealTimePerf) {
+func getMakeOntuneRealTimePerfData(hostItem kafkaDataStruct.HostAgentInfo, baseTime time.Time) (arealTimeperf kafkaDataStruct.RealTimePerf) {
 	arealTimeperf.AgentID = hostItem.AgentID
 	arealTimeperf.Agenttime = baseTime
 	arealTimeperf.User = rand.Intn(100)
@@ -87,16 +88,16 @@ func getMakeOntuneRealTimePerfData(hostItem HostAgentInfo, baseTime time.Time) (
 
 }
 
-func getMakeOntuneRealTimePIDData(hostItem HostAgentInfo, baseTime time.Time) (arealTimecpu RealTimePID) {
+func getMakeOntuneRealTimePIDData(hostItem kafkaDataStruct.HostAgentInfo, baseTime time.Time) (arealTimecpu kafkaDataStruct.RealTimePID) {
 
 	arealTimecpu.AgentID = hostItem.AgentID
 	arealTimecpu.Agenttime = baseTime
 
 	pidcount := rand.Intn(100)
-	arealTimecpu.PerfList = make([]RealTimePIDInner, pidcount)
+	arealTimecpu.PerfList = make([]kafkaDataStruct.RealTimePIDInner, pidcount)
 
 	for i := 0; i < pidcount; i++ {
-		arealTimepidInner := RealTimePIDInner{}
+		arealTimepidInner := kafkaDataStruct.RealTimePIDInner{}
 
 		arealTimepidInner.Pid = rand.Intn(100)
 		arealTimepidInner.Ppid = rand.Intn(100)
@@ -157,16 +158,16 @@ func getMakeOntuneRealTimePIDData(hostItem HostAgentInfo, baseTime time.Time) (a
 
 }
 
-func getMakeOntuneRealTimeDiskData(hostItem HostAgentInfo, baseTime time.Time) (arealTimeDisk RealTimeDisk) {
+func getMakeOntuneRealTimeDiskData(hostItem kafkaDataStruct.HostAgentInfo, baseTime time.Time) (arealTimeDisk kafkaDataStruct.RealTimeDisk) {
 
 	arealTimeDisk.AgentID = hostItem.AgentID
 	arealTimeDisk.Agenttime = baseTime
 
 	diskcount := rand.Intn(20)
-	arealTimeDisk.PerfList = make([]RealTimeDiskInner, diskcount)
+	arealTimeDisk.PerfList = make([]kafkaDataStruct.RealTimeDiskInner, diskcount)
 
 	for i := 0; i < diskcount; i++ {
-		arealTimeDiskInner := RealTimeDiskInner{}
+		arealTimeDiskInner := kafkaDataStruct.RealTimeDiskInner{}
 
 		var diskioname string
 		switch rand.Intn(4) {
@@ -207,15 +208,15 @@ func getMakeOntuneRealTimeDiskData(hostItem HostAgentInfo, baseTime time.Time) (
 
 }
 
-func getMakeOntuneRealTimeNetData(hostItem HostAgentInfo, baseTime time.Time) (arealTimeNet RealTimeNet) {
+func getMakeOntuneRealTimeNetData(hostItem kafkaDataStruct.HostAgentInfo, baseTime time.Time) (arealTimeNet kafkaDataStruct.RealTimeNet) {
 	arealTimeNet.AgentID = hostItem.AgentID
 	arealTimeNet.Agenttime = baseTime
 
 	netcount := rand.Intn(5)
-	arealTimeNet.PerfList = make([]RealTimeNetInner, netcount)
+	arealTimeNet.PerfList = make([]kafkaDataStruct.RealTimeNetInner, netcount)
 
 	for i := 0; i < netcount; i++ {
-		arealTimenetInner := RealTimeNetInner{}
+		arealTimenetInner := kafkaDataStruct.RealTimeNetInner{}
 		var netioname string
 		switch rand.Intn(4) {
 		case 1:
