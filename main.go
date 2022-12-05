@@ -23,7 +23,7 @@ func testhostSender(settingValue *SettingAgent) {
 	var hostList []kafkaDataStruct.HostAgentInfo
 	hostList = make([]kafkaDataStruct.HostAgentInfo, settingValue.EndNum-settingValue.StartNum)
 	for i := 0; i < settingValue.EndNum-settingValue.StartNum; i++ {
-		hostinfo := getNewHost(settingValue.HeaderKeyCode, i)
+		hostinfo := getNewHost(settingValue.HeaderKeyCode, settingValue.StartNum+i)
 		hostList[i] = *hostinfo
 
 		hostEncodeData, err := json.Marshal(hostinfo)
@@ -58,6 +58,7 @@ func testhostSender(settingValue *SettingAgent) {
 						}
 					}
 				}
+				fmt.Println("SendPerfCount", len(hostList))
 			}
 
 		case _ = <-basicPIDTick.C:
@@ -69,12 +70,13 @@ func testhostSender(settingValue *SettingAgent) {
 					if err != nil {
 						fmt.Println(err)
 					} else {
-						onTuneKafkaController.SendKafkaData("realtimeppid", hostinfo.AgentID, hostEncodeData)
+						onTuneKafkaController.SendKafkaData("realtimepid", hostinfo.AgentID, hostEncodeData)
 						if settingValue.LOGMODE {
 							fmt.Println("SendRealTimePID:", hostinfo.AgentID, " ", realtimePIDPerf.Agenttime)
 						}
 					}
 				}
+				fmt.Println("SendPIDCount", len(hostList))
 			}
 		case _ = <-basicDiskNetTick.C:
 			{
@@ -102,6 +104,7 @@ func testhostSender(settingValue *SettingAgent) {
 						}
 					}
 				}
+				fmt.Println("SendNet,Disk Count", len(hostList))
 			}
 		case <-exitControl:
 			{
@@ -126,8 +129,11 @@ func main() {
 	onTuneKafkaController.KafkaProducerControllerInit(&kafkaconfig)
 	fmt.Println("Kafka Setting Complete (", *onTuneKafkaController.ProducerInit, ")")
 	if *onTuneKafkaController.ProducerInit == true {
+		fmt.Println("Agent Start")
 		wg.Add(1)
 		go testhostSender(settingValue)
 		wg.Wait()
+		fmt.Println("Agent Stop")
 	}
+	fmt.Println("Agent Close")
 }
