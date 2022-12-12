@@ -11,7 +11,7 @@ import (
 
 const (
 	INIFILENAME string = "agent.json"
-	INIFILEPATH string = `config\`
+	INIFILEPATH string = `config/`
 	FILEVERSION string = "0.0.0.1"
 )
 
