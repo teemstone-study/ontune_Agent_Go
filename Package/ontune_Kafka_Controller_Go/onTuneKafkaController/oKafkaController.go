@@ -23,13 +23,14 @@ var ProducerInit = &m_moduleProcedureInit
 func kafkaControllerInit(configValue *SettingKafka) {
 	if m_kafkaConfig == nil || m_kafkaClient == nil {
 		m_kafkaConfig = sarama.NewConfig()
+		m_kafkaConfig.Version = sarama.V0_10_2_0
 		m_kafkaConfig.Producer.Return.Successes = true
 		m_kafkaConfig.Producer.Compression = sarama.CompressionSnappy
 		m_kafkaConfig.Producer.RequiredAcks = sarama.WaitForAll //무손실 옵션. 속도가 느릴수도?
 		m_kafkaConfig.Producer.MaxMessageBytes = 4000000        //기본값 1000000. 4배로 변경해봄
 		m_kafkaConfig.ChannelBufferSize = 4096
 		m_kafkaConfig.Consumer.Fetch.Default = 100000
-		m_kafkaConfig.Consumer.Offsets.AutoCommit.Enable = true
+		//m_kafkaConfig.Consumer.Offsets.AutoCommit.Enable = true
 
 		connectionString := []string{configValue.KafkaServerAddr + ":" + configValue.KafkaServerPort}
 		kafkaClient, err := sarama.NewClient(connectionString, m_kafkaConfig)
