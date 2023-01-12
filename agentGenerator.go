@@ -104,37 +104,37 @@ func getMakeOntuneRealTimePIDData(hostItem kafkaDataStruct.HostAgentInfo, baseTi
 		arealTimepidInner.Uid = rand.Intn(100)
 		var cmdname string
 		switch rand.Intn(3) {
-		case 1:
+		case 0:
 			cmdname = "java"
-		case 2:
+		case 1:
 			cmdname = "node"
-		case 3:
+		case 2:
 			cmdname = "ontuned"
 		}
 		arealTimepidInner.Cmdname = cmdname
 
 		var username string
 		switch rand.Intn(4) {
-		case 1:
+		case 0:
 			username = "root"
-		case 2:
+		case 1:
 			username = "gdm"
-		case 3:
+		case 2:
 			username = "telegraf"
-		case 4:
+		case 3:
 			username = "kibana"
 		}
 		arealTimepidInner.Username = username
 
 		var argname string
 		switch rand.Intn(4) {
-		case 1:
+		case 0:
 			argname = "root"
-		case 2:
+		case 1:
 			argname = "gdm"
-		case 3:
+		case 2:
 			argname = "telegraf"
-		case 4:
+		case 3:
 			argname = "kibana"
 		}
 		arealTimepidInner.Argname = argname
@@ -171,13 +171,13 @@ func getMakeOntuneRealTimeDiskData(hostItem kafkaDataStruct.HostAgentInfo, baseT
 
 		var diskioname string
 		switch rand.Intn(4) {
-		case 1:
+		case 0:
 			diskioname = "C:"
-		case 2:
+		case 1:
 			diskioname = "D:"
-		case 3:
+		case 2:
 			diskioname = "E:"
-		case 4:
+		case 3:
 			diskioname = "F:"
 		}
 		arealTimeDiskInner.Ioname = diskioname
@@ -188,13 +188,13 @@ func getMakeOntuneRealTimeDiskData(hostItem kafkaDataStruct.HostAgentInfo, baseT
 
 		var descname string
 		switch rand.Intn(4) {
-		case 1:
+		case 0:
 			descname = "centos_centos7kvm"
-		case 2:
+		case 1:
 			descname = "centos_numatest"
-		case 3:
+		case 2:
 			descname = "ontubun1604-vg"
-		case 4:
+		case 3:
 			descname = "2a-ce75126bbade"
 		}
 		arealTimeDiskInner.Descname = descname
@@ -219,13 +219,13 @@ func getMakeOntuneRealTimeNetData(hostItem kafkaDataStruct.HostAgentInfo, baseTi
 		arealTimenetInner := kafkaDataStruct.RealTimeNetInner{}
 		var netioname string
 		switch rand.Intn(4) {
-		case 1:
+		case 0:
 			netioname = "Intel[R] 82574L Gigabit Network Connection"
-		case 2:
+		case 1:
 			netioname = "Intel[R] PRO_1000 MT Network Connection"
-		case 3:
+		case 2:
 			netioname = "Intel[R] 82574L Gigabit Network Connection _2"
-		case 4:
+		case 3:
 			netioname = "VG_XenStorage-628ef03e-1cf7-cd4"
 		}
 		arealTimenetInner.Ioname = netioname
